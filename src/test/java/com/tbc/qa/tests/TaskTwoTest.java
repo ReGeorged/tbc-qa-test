@@ -60,6 +60,8 @@ public class TaskTwoTest extends Base{
 
             Assert.assertTrue(currentBookXPath.contains(currentBook));
             back();
+            $(By.xpath("//*[@id=\"searchBox\"]")).clear();
+
         }
     }
 
