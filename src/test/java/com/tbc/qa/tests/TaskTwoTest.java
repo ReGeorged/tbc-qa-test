@@ -50,6 +50,7 @@ public class TaskTwoTest extends Base{
     @Test(priority = 3)
     void UseSearchAndFilterResults() throws InterruptedException {
         List bookNameList =$$(By.xpath("//*[@id=\"app\"]/div/div/div[2]/div[2]/div[2]/div[2]/div[1]/div[2]/div[*]/div/div[2]/div/span/a[contains(text(),'JavaScript')]")).texts();
+        $(By.xpath("//*[@id=\"searchBox\"]")).clear();
 
         for(int  i= 0; i<bookNameList.size()-1;i++) {
             String currentBook = bookNameList.get(i).toString();
