@@ -1,26 +1,21 @@
 package com.tbc.qa.tests;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.drivercommands.Navigator;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
+
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class TaskTwoTest {
+public class TaskTwoTest extends Base{
 
     @BeforeMethod
-    void setUp(){
-        open("https://demoqa.com/books");
-        Configuration.browserSize = "1920x1080";
-
+    void SetUp(){
+        initialize();
 
     }
 
@@ -28,6 +23,7 @@ public class TaskTwoTest {
     void PublisherAndTitleMatchTest() throws InterruptedException {
         List publisherList  = $$(By.xpath("//*[@id=\"app\"]/div/div/div[2]/div[2]/div[2]/div[2]/div[1]/div[2]/div//div/div[4][contains(text(),'')]")).texts();
         List bookNameList =$$(By.xpath("//*[@id=\"app\"]/div/div/div[2]/div[2]/div[2]/div[2]/div[1]/div[2]/div[*]/div/div[2]/div/span/a[contains(text(),'')]")).texts();
+
         $(By.xpath("//*[@id=\"searchBox\"]")).sendKeys("JavaScript");
 
         int matchedCount = 0;
@@ -44,7 +40,7 @@ public class TaskTwoTest {
     }
 
     @Test(priority = 2)
-    void checkFirstBook(){
+    void CheckFirstBook(){
         List bookNameList =$$(By.xpath("//*[@id=\"app\"]/div/div/div[2]/div[2]/div[2]/div[2]/div[1]/div[2]/div[*]/div/div[2]/div/span/a[contains(text(),'JavaScript')]")).texts();
 
         $(By.xpath("//*[@id=\"searchBox\"]")).sendKeys("JavaScript");
@@ -56,9 +52,13 @@ public class TaskTwoTest {
         List bookNameList =$$(By.xpath("//*[@id=\"app\"]/div/div/div[2]/div[2]/div[2]/div[2]/div[1]/div[2]/div[*]/div/div[2]/div/span/a[contains(text(),'JavaScript')]")).texts();
 
         for(int  i= 0; i<bookNameList.size()-1;i++) {
-            String whichHyperLinkToClick = bookNameList.get(i).toString();
+            String currentBook = bookNameList.get(i).toString();
+            String currentBookXPath = $$(By.xpath("//*[@id=\"userName-value\"][contains(text(),'"+currentBook+"')]")  ).toString();
+
             $(By.xpath("//*[@id=\"searchBox\"]")).sendKeys("JavaScript");
-            $(By.xpath("//a[contains(text(),'"+whichHyperLinkToClick+"')]")).click();
+            $(By.xpath("//a[contains(text(),'"+currentBook+"')]")).click();
+
+            Assert.assertTrue(currentBookXPath.contains(currentBook));
             back();
         }
     }
